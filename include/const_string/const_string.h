@@ -58,6 +58,19 @@ public:
 		return retval;
 	}
 
+	const_string substr(std::string_view range) const
+	{
+		const_string retval;
+		retval._as_strview() = range;
+		retval._data = this->_data;
+		return retval;
+	}
+
+	const_string substr(iterator start, iterator end) const
+	{
+		return substr(std::string_view{start, static_cast<size_type>(end-start)});
+	}
+
 	const_string substr_sentinel( size_t offset, char sentinel ) const
 	{
 		const auto size = this->find( sentinel, offset );
