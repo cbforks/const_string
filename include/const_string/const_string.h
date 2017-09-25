@@ -60,6 +60,7 @@ public:
 
 	const_string substr(std::string_view range) const
 	{
+		assert(data() <= range.data() && range.end() < end());
 		const_string retval;
 		retval._as_strview() = range;
 		retval._data = this->_data;
@@ -68,7 +69,8 @@ public:
 
 	const_string substr(iterator start, iterator end) const
 	{
-		return substr(std::string_view{start, static_cast<size_type>(end-start)});
+		// UGLY: start-begin()+data() is necessary to convert from an iterator to a pointer on platforms where they are not the same type
+		return substr(std::string_view(start-begin()+data(), static_cast<size_type>(end-start)));
 	}
 
 	const_string substr_sentinel( size_t offset, char sentinel ) const
