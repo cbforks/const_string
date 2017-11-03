@@ -60,7 +60,7 @@ public:
 
 	const_string substr(std::string_view range) const
 	{
-		assert(data() <= range.data() && range.end() < end());
+		assert(data() <= range.data() && range.end() <= end());
 		const_string retval;
 		retval._as_strview() = range;
 		retval._data = this->_data;
